@@ -130,7 +130,7 @@ require('lazy').setup({
       'LazyGitFilterCurrentFile',
     },
     keys = {
-      { '<leader>l', '<cmd>LazyGit<cr>', desc = 'Start [L]azyGit' },
+      { '<leader>l', '<cmd>LazyGitCurrentFile<cr>', desc = 'Start [L]azyGit' },
     },
   },
 
