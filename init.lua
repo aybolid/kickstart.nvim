@@ -70,8 +70,8 @@ vim.diagnostic.config {
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
   -- Can switch between these as you prefer
-  virtual_text = false, -- Text shows up at the end of the line
-  virtual_lines = true, -- Text shows up underneath the line, with virtual lines
+  virtual_text = true, -- Text shows up at the end of the line
+  virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
   jump = { float = true },
@@ -263,7 +263,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-      vim.keymap.set('n', '<leader>sf', builtin.buffers, { desc = '[S]earch existing bu[F]fers' })
+      vim.keymap.set('n', '<leader>sf', builtin.buffers, { desc = '[S]earch existing [F]ile Buffers' })
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
@@ -317,6 +317,7 @@ require('lazy').setup({
       )
 
       vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
+      vim.keymap.set('n', '<leader>sv', function() builtin.find_files { cwd = '~/Documents/vaulter' } end, { desc = '[S]earch [V]aulter files' })
     end,
   },
 
@@ -505,17 +506,12 @@ require('lazy').setup({
       local servers = {
         rust_analyzer = {},
 
-        biome = {
-          -- Use the lspconfig utility to find the root based on specific files
-          ---@diagnostic disable-next-line: redundant-return-value
-          root_dir = function(fname) return require('lspconfig.util').root_pattern('biome.json', 'biome.jsonc')(fname) end,
-          -- This is the most important part: it prevents Biome from starting
-          -- if the root_dir function above doesn't find a match.
-          single_file_support = false,
-        },
+        biome = {},
         eslint = {},
         tsgo = {},
         tailwindcss = {},
+
+        markdown_oxide = {},
 
         stylua = {},
         -- Special Lua Config, as recommended by neovim help docs
@@ -567,9 +563,7 @@ require('lazy').setup({
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
-      lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
-      }
+      lint.linters_by_ft = {}
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
@@ -654,6 +648,7 @@ require('lazy').setup({
         javascript = { 'biome', 'prettierd', stop_after_first = true },
         typescript = { 'biome', 'prettierd', stop_after_first = true },
         typescriptreact = { 'biome', 'prettierd', stop_after_first = true },
+        markdown = { 'prettierd', stop_after_first = true },
       },
     },
   },
