@@ -15,6 +15,7 @@ return {
         view_options = {
           show_hidden = true,
         },
+        watch_for_changes = true,
       }
       vim.keymap.set('n', '<leader>e', oil.open, { desc = 'Open File [E]xplorer' })
     end,

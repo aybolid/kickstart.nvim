@@ -5,6 +5,7 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 -- Display relative line numbers
+vim.o.number = true
 vim.o.relativenumber = true
 -- Enable mouse mode (can be useful for resizing splits)
 vim.o.mouse = 'a'
